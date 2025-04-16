@@ -12,6 +12,7 @@ struct ChartView: View {
     var inputSize: Double
     var dataPoints: [DataPoint]
     var yPeak: Double
+    var yType: ChartScaleType
     
     var body: some View {
         Chart(dataPoints) { point in
@@ -23,7 +24,7 @@ struct ChartView: View {
             .foregroundStyle(by: .value("Rate", point.rate))
         }
         .chartXScale(domain: 0...inputSize)
-        .chartYScale(domain: 0...yPeak)
+        .chartYScale(domain: 0...yPeak, type: yType.chartsType)
         .chartYAxis {
             AxisMarks(preset: .automatic) { value in
                 AxisGridLine()
@@ -39,8 +40,10 @@ struct ChartView: View {
         .padding()
     }
     
-    init(selectedItems: Set<GrowthRate>, inputSize: Double) {
+    init(selectedItems: Set<GrowthRate>, inputSize: Double, yType: ChartScaleType) {
         self.inputSize = inputSize
+        self.yType = yType
+        
         dataPoints = selectedItems.flatMap { rate in
             (0...Int(inputSize)).map { x in
                 DataPoint(x: x, y: rate.function(x), rate: rate.id)
@@ -53,5 +56,5 @@ struct ChartView: View {
 }
 
 #Preview {
-    ChartView(selectedItems: Set(GrowthRate.all), inputSize: 16)
+    ChartView(selectedItems: Set(GrowthRate.all), inputSize: 16, yType: .linear)
 }

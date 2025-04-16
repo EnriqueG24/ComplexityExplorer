@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedItems = Set<GrowthRate>()
     @State private var inputSize = 4.0
+    @State private var yType = ChartScaleType.linear
+    
     
     var body: some View {
         NavigationSplitView {
@@ -18,9 +20,9 @@ struct ContentView: View {
             }
         } detail: {
             VStack {
-                ChartView(selectedItems: selectedItems, inputSize: inputSize)
+                ChartView(selectedItems: selectedItems, inputSize: inputSize, yType: yType)
                 
-                ControlsView(inputSize: $inputSize)
+                ControlsView(inputSize: $inputSize, yType: $yType)
             }
         }
         .onAppear {

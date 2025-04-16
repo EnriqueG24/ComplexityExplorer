@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ControlsView: View {
     @Binding var inputSize: Double
+    @Binding var yType: ChartScaleType
     
     var body: some View {
         HStack {
@@ -18,11 +19,19 @@ struct ControlsView: View {
                 Text("Input size: \(Int(inputSize))")
                     .frame(minWidth: 100)
             }
+            
+            Picker("Chart Type", selection: $yType) {
+                Text("Linear").tag(ChartScaleType.linear)
+                Text("Logarithmic").tag(ChartScaleType.logarithmic)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .fixedSize()
         }
         .padding([.horizontal, .bottom])
     }
 }
 
 #Preview {
-    ControlsView(inputSize: .constant(2))
+    ControlsView(inputSize: .constant(2), yType: .constant(.linear))
 }
