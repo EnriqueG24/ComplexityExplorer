@@ -16,16 +16,18 @@ struct ChartView: View {
         Chart(dataPoints) { point in
             LineMark(
                 x: .value("x", point.x),
-                y: .value("y", point.y)
+                y: .value("y", point.y),
+                series: .value("Rate", point.rate)
             )
+            .foregroundStyle(by: .value("Rate", point.rate))
         }
         .chartXScale(domain: 0...16)
         .chartYScale(domain: 0...yPeak)
         .padding()
     }
     
-    init() {
-        dataPoints = GrowthRate.all.flatMap { rate in
+    init(selectedItems: Set<GrowthRate>) {
+        dataPoints = selectedItems.flatMap { rate in
             (0...16).map { x in
                 DataPoint(x: x, y: rate.function(x), rate: rate.id)
             }
@@ -37,5 +39,5 @@ struct ChartView: View {
 }
 
 #Preview {
-    ChartView()
+    ChartView(selectedItems: Set(GrowthRate.all))
 }

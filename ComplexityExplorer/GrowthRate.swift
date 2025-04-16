@@ -13,7 +13,9 @@ struct GrowthRate: Hashable, Identifiable {
     
     static var all: [GrowthRate] {
         [
-            GrowthRate(id: "Linear", function: linearGrowth)
+            GrowthRate(id: "Linear", function: linearGrowth),
+            GrowthRate(id: "Constant", function: constantGrowth),
+            GrowthRate(id: "Square Root", function: squareRootGrowth)
         ]
     }
     
@@ -25,7 +27,18 @@ struct GrowthRate: Hashable, Identifiable {
         hasher.combine(id)
     }
     
+    // O(n)
     static func linearGrowth(_ n: Int) -> Double {
         Double(n)
+    }
+    
+    // O(1)
+    static func constantGrowth(_ n: Int) -> Double {
+        1
+    }
+    
+    // O(sqrt(n))
+    static func squareRootGrowth(_ n: Int) -> Double {
+        sqrt(Double(n))
     }
 }
