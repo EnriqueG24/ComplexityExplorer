@@ -23,6 +23,18 @@ struct ChartView: View {
         }
         .chartXScale(domain: 0...16)
         .chartYScale(domain: 0...yPeak)
+        .chartYAxis {
+            AxisMarks(preset: .automatic) { value in
+                AxisGridLine()
+                
+                AxisValueLabel {
+                    let value = value.as(Decimal.self) ?? 0
+                    
+                    Text("\(value.formatted(.number))")
+                        .frame(minWidth: 30, maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        }
         .padding()
     }
     
