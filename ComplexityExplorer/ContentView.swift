@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var selectedItems = Set<GrowthRate>()
     @State private var inputSize = 4.0
     @State private var yType = ChartScaleType.linear
+    @State private var showingHelp = true
     
     var body: some View {
         NavigationSplitView {
@@ -23,6 +24,9 @@ struct ContentView: View {
                 
                 ControlsView(inputSize: $inputSize, yType: $yType)
             }
+        }
+        .inspector(isPresented: $showingHelp) {
+            HelpView(selectedItems: selectedItems, showingHelp: $showingHelp)
         }
         .onAppear {
             selectedItems = [GrowthRate.all[0]]
