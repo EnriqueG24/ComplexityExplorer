@@ -9,6 +9,8 @@ import SwiftUI
 import Charts
 
 struct ChartView: View {
+    @State private var selectedX: Int?
+    
     var inputSize: Double
     var dataPoints: [DataPoint]
     var yPeak: Double
@@ -22,7 +24,23 @@ struct ChartView: View {
                 series: .value("Rate", point.rate)
             )
             .foregroundStyle(by: .value("Rate", point.rate))
+            
+            if selectedX == point.x {
+                PointMark(
+                    x: .value("x", point.x),
+                    y: .value("y", point.y)
+                )
+                .foregroundStyle(by: .value("Rate", point.rate))
+                .annotation(position: .top) {
+                    Text(point.y.formatted(.number.precision(.fractionLength(0...2))))
+                        .padding(8)
+                        .font(.title2.bold())
+                        .background(.ultraThinMaterial)
+                        .clipShape(.rect(cornerRadius: 10))
+                }
+            }
         }
+        .chartXSelection(value: $selectedX)
         .chartXScale(domain: 0...inputSize)
         .chartYScale(domain: 0...yPeak, type: yType.chartsType)
         .chartYAxis {
@@ -38,6 +56,7 @@ struct ChartView: View {
             }
         }
         .padding()
+        .padding(.top, 30)
     }
     
     init(selectedItems: Set<GrowthRate>, inputSize: Double, yType: ChartScaleType) {

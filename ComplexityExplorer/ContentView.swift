@@ -12,7 +12,6 @@ struct ContentView: View {
     @State private var inputSize = 4.0
     @State private var yType = ChartScaleType.linear
     
-    
     var body: some View {
         NavigationSplitView {
             List(GrowthRate.all, id: \.self, selection: $selectedItems) { item in
